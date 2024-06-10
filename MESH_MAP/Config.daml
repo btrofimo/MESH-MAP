@@ -1,0 +1,37 @@
+﻿<ArcGIS defaultAssembly="MESH_MAP.dll" defaultNamespace="MESH_MAP" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{76eb8072-5f60-4738-b2c3-fafad2f851d3}" version="1.0" desktopVersion="3.3.52636" product="ArcGISPro">
+    <Name>MESH-MAP</Name>
+    <Description>Maximum Estimated Size of Hail - Monitoring and Analysis Program</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>Daniel Butt</Author>
+    <Company>CSSL</Company>
+    <Date>6/10/2024 10:35:44 AM</Date>
+    <Subject>Framework</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="MESH_MAP_Module" className="Module1" autoLoad="false" caption="Module1">
+      <!-- uncomment to have the control hosted on a separate tab-->
+      <tabs>
+        <tab id="MESH_MAP_Tab1" caption="MESH-MAP">
+			<group refID="MESH_MAP"/>
+        </tab>
+      </tabs>
+      <groups>
+        <!-- comment this out if you have no controls on the Addin tab to avoid
+              an empty group-->
+        <group id="MESH_MAP" caption="MESH-MAP" appearsOnAddInTab="false">
+          <!-- host controls within groups -->
+          <button refID="MESH_MAP_Main" size="large" />
+        </group>
+      </groups>
+      <controls>
+        <!-- add your controls here -->
+        <button id="MESH_MAP_Main" caption="Analyse" className="ShowMain" loadOnClick="true" smallImage="GenericButtonPurple16" largeImage="GenericButtonPurple32">
+          <tooltip heading="Analyse MESH">Analyse MESH scan to detect hail swaths<disabledText /></tooltip>
+        </button>
+      </controls>
+    </insertModule>
+  </modules>
+</ArcGIS>

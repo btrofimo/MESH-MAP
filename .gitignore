@@ -2,3 +2,6 @@ test_images/
 simple_images/
 python/__pycache__
 python/.idea/
+MESH_MAP/.vs/
+MESH_MAP/obj/
+MESH_MAP/bin/
