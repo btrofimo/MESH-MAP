@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ArcGIS.Desktop.Framework.Controls;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,20 +23,43 @@ namespace MESH_MAP
         public Main()
         {
             InitializeComponent();
+
+            artifactSelectionBox.SelectByName("artifact");
         }
 
-        private void Run(object sender, RoutedEventArgs e)
+        private TextBoxStreamWriter textBoxstreamWriter;
+
+        private async void Run(object sender, RoutedEventArgs e)
         {
-            if (MissingInput()) return;
+            try
+            {
+                runButton.IsEnabled = false;
 
-            var lengthReqs = lengthReqsBox.GetReqs();
-            var scans = scansListBox.GetSelectedLayers();
-            var artifact_raster = artifactSelectionBox.GetSelectedLayer();
+                if (MissingInput()) return;
 
+                var lengthReqs = lengthReqsBox.GetReqs();
+                var scans = scansListBox.GetSelectedLayers();
+                var artifactRaster = artifactSelectionBox.GetSelectedLayer();
+                int[] denoiseParams = [denoiseThreshold.GetNum(), denoiseStrength.GetNum(), denoiseMinArea.GetNum()];
 
-            // TODO: Add code here to run MESH_MAP
+                tabControl.SelectedIndex = 1;
 
+                textBoxstreamWriter = new TextBoxStreamWriter(ConsoleTextBox);
+                textBoxstreamWriter.RedirectStandardOutput();
 
+                await QueuedTask.Run(() =>
+                {
+                    MeshAnalysis.RunAnalysis(scans, denoiseParams, artifactRaster, lengthReqs);
+                });
+
+                textBoxstreamWriter.StopSpinning();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Something went wrong... :(\n\nError:\n" + ex.ToString());
+            }
+
+            runButton.IsEnabled = true;
         }
 
         private bool MissingInput()

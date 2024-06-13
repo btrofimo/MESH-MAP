@@ -7,14 +7,15 @@ import numpy as np
 import cv2
 import networkx as nx
 from colour_swaths import colour_swath
-from denoise import denoise_mesh
+#from denoise import denoise_mesh
 from PIL import Image
 from glob import glob
 from tqdm import tqdm
 
 
 def imread_tif32f(path):
-    return np.array(Image.open(path), dtype=np.uint8)
+    img = Image.open(path)
+    return np.array(img, dtype=np.uint8)
 
 
 def extract_cc_images(img, bimg, connectivity, area_threshold):
@@ -145,10 +146,10 @@ def draw_referenced_path(im, path, stats):
 # TODO: Max swath width path coords
 if __name__ == '__main__':
 
-    for file in tqdm(glob("simple_images/*.tif")[21:]):
+    for file in tqdm(glob("../simple_images/*.tif")[21:]):
         name = os.path.basename(file)
         im = imread_tif32f(file)
-        im = denoise_mesh(im)
+        #im = denoise_mesh(im)
         cimg = colour_swath(im)
 
         binary_im = np.zeros_like(im, dtype=np.uint8)

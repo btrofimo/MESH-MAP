@@ -1,6 +1,8 @@
 ﻿using ArcGIS.Core.CIM;
+using ArcGIS.Core.Data.UtilityNetwork.Trace;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.Mapping;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,6 +13,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ArcGIS.Core.Data.Raster;
+using ArcGIS.Core.Geometry;
+using ArcGIS.Desktop.Core.Geoprocessing;
+using ArcGIS.Desktop.Core;
 
 namespace MESH_MAP
 {
@@ -22,6 +28,11 @@ namespace MESH_MAP
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
 
             return System.IO.Path.GetDirectoryName(Uri.UnescapeDataString(new Uri(asm.Location).LocalPath));
+        }
+
+        public static string GetProjectPath()
+        {
+            return System.IO.Path.GetDirectoryName(ArcGIS.Desktop.Core.Project.Current.URI);
         }
 
         public static (List<string>, List<double[]>, List<double[]>, List<double>) GetRasterData(List<RasterLayer> rLayers)
@@ -68,6 +79,67 @@ namespace MESH_MAP
             }
 
             return (filePaths, coords, sizes, scales);
+        }
+
+        public static string GetRasterPath(RasterLayer rasterLayer)
+        {
+            string fullSpec = string.Empty;
+            CIMDataConnection dataConnection = rasterLayer.GetDataConnection();
+            if (dataConnection is CIMStandardDataConnection)
+            {
+                CIMStandardDataConnection dataSConnection = dataConnection as CIMStandardDataConnection;
+
+                string sConnection = dataSConnection.WorkspaceConnectionString;
+
+                var wFactory = dataSConnection.WorkspaceFactory;
+                if (wFactory == WorkspaceFactory.Raster)
+                {
+                    string sWorkspaceName = sConnection.Split('=')[1];
+
+                    string sTable = dataSConnection.Dataset;
+
+                    fullSpec = System.IO.Path.Combine(sWorkspaceName, sTable);
+                }
+            }
+
+            return fullSpec;
+        }
+
+
+        public async static Task<RasterLayer> LoadImageFile(Mat im, string name, RasterLayer parentLayer, ILayerContainerEdit groupContainer=null)
+        {
+            var pathProject = GetProjectPath();
+            var path = pathProject + "\\" + name + ".tif";
+            RasterLayer layer = null;
+
+            await QueuedTask.Run(() =>
+            {
+                System.IO.File.Copy(GetRasterPath(parentLayer), path, true);
+
+                if (groupContainer == null) groupContainer = MapView.Active.Map;
+
+                layer = LayerFactory.Instance.CreateLayer(new Uri(path), groupContainer) as RasterLayer;
+
+                Raster raster = layer.GetRaster();
+
+                var pixelBlock = raster.CreatePixelBlock(raster.GetWidth(), raster.GetHeight());
+                var rasterData = (float[,])pixelBlock.GetPixelData(0, false);
+
+                for (int i = 0; i < raster.GetHeight(); i++)
+                {
+                    for (int j = 0; j < raster.GetWidth(); j++)
+                    {
+                        rasterData[j, i] = im.At<byte>(i, j);
+                    }
+                }
+
+                pixelBlock.SetPixelData(0, rasterData);
+                raster.Write(0, 0, pixelBlock);
+
+                MapView.Active.Redraw(false);
+            });
+
+            return layer;
         }
 
         public async static void LoadShapeFiles(bool group=false)
@@ -192,8 +264,11 @@ namespace MESH_MAP
                 }
 
             });
+
+
         }
 
+        
 
     }
 }

@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MESH_MAP"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="520">
+             d:DesignHeight="150" d:DesignWidth="535">
     <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="150" Fill="#F7F8F8" VerticalAlignment="Top" Width="520"/>
-        <ListBox x:Name="lengthReqsListBox" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Height="110"/>
-        <Button Content="Add" HorizontalAlignment="Left" Margin="100,125,0,0" VerticalAlignment="Top" Width="50" Click="AddItem"/>
-        <Button Content="Delete" HorizontalAlignment="Left" Margin="200,125,0,0" VerticalAlignment="Top" Width="50" Click="DeleteItem"/>
-        <Label Content="Hail Size" FontSize="14" HorizontalAlignment="Left" Margin="369,24,0,0" VerticalAlignment="Top"/>
-        <Label Content="Length" FontSize="14" HorizontalAlignment="Left" Margin="448,24,0,0" VerticalAlignment="Top"/>
-        <local:WholeNumBox x:Name="lengthBox" HorizontalAlignment="Left" Margin="454,53,0,0" VerticalAlignment="Top" Width="40" Height="22" RenderTransformOrigin="0.514,0.655" DefaultValue="10"/>
-        <Label Content="Km" FontSize="12" HorizontalAlignment="Left" Margin="491,53,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.143,0.519"/>
-        <ComboBox x:Name="hailSizeComboBox" Margin="360,53,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="20" SelectedIndex="5">
+        <Rectangle HorizontalAlignment="Left" Height="150" Fill="#eff0f1" VerticalAlignment="Top" Width="535"/>
+        <ListBox x:Name="lengthReqsListBox" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="110"/>
+        <Button Content="Add" HorizontalAlignment="Left" Margin="75,125,0,0" VerticalAlignment="Top" Width="50" Click="AddItem"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="175,125,0,0" VerticalAlignment="Top" Width="50" Click="DeleteItem"/>
+        <Label Content="Hail Size" FontSize="14" HorizontalAlignment="Left" Margin="346,24,0,0" VerticalAlignment="Top"/>
+        <Label Content="Length" FontSize="14" HorizontalAlignment="Left" Margin="442,23,0,0" VerticalAlignment="Top"/>
+        <local:WholeNumBox x:Name="lengthBox" HorizontalAlignment="Left" Margin="443,52,0,0" VerticalAlignment="Top" Width="50" Height="22" RenderTransformOrigin="0.514,0.655" DefaultValue="10"/>
+        <Label Content="Km" FontSize="12" HorizontalAlignment="Left" Margin="492,50,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.143,0.519"/>
+        <ComboBox x:Name="hailSizeComboBox" Margin="337,53,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="20" SelectedIndex="5">
             <ComboBoxItem>
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Stroke="#000000" Width="10" Height="10" Fill="#0099ff"/>

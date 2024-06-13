@@ -7,7 +7,7 @@
         xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
         xmlns:local="clr-namespace:MESH_MAP" x:Class="MESH_MAP.Main"
         mc:Ignorable="d"
-        Title="MESH Analysis" Height="575" Width="560" MinHeight="575" MinWidth="560"
+        Title="MESH Analysis" Height="600" Width="710" MinHeight="600" MinWidth="710"
         WindowStartupLocation="CenterOwner"
     >
     <controls:ProWindow.Resources>
@@ -19,29 +19,40 @@
     </controls:ProWindow.Resources>
 
     <Grid>
-        <Label Content="Input Selection" FontSize="18"  HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Denoise Parameters" FontSize="18"  HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Length Requirements" FontSize="18"  HorizontalAlignment="Left" Margin="10,323,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TabControl x:Name="tabControl">
+            <TabItem Header="Input" Width="100">
+                <Grid>
+                    <Label Content="Input Selection" FontSize="18"  HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <Label Content="Denoise Parameters" FontSize="18"  HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <Label Content="Length Requirements" FontSize="18"  HorizontalAlignment="Left" Margin="10,323,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
-        <Label Content="MESH Scans" FontSize="14" HorizontalAlignment="Left" Margin="25,40,0,0" VerticalAlignment="Top"/>
-        <Label Content="Artifacts:" FontSize="14" HorizontalAlignment="Left" Margin="25,201,0,0" VerticalAlignment="Top"/>
+                    <Label Content="MESH Scans" FontSize="14" HorizontalAlignment="Left" Margin="25,40,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Artifacts:" FontSize="14" HorizontalAlignment="Left" Margin="25,201,0,0" VerticalAlignment="Top"/>
 
-        <CheckBox Content="" HorizontalAlignment="Left" Margin="195,258,0,0" VerticalAlignment="Top" IsChecked="True" x:Name="DenoiseCheckBox"/>
+                    <CheckBox Content="" HorizontalAlignment="Left" Margin="195,258,0,0" VerticalAlignment="Top" IsChecked="True" x:Name="DenoiseCheckBox"/>
 
-        <Grid Width="510" Height="50" HorizontalAlignment="Left" Margin="20,283,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=DenoiseCheckBox, Path=IsChecked}">
-            <Label Content="Threshold" FontSize="14" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" ToolTip="MESH values less than this will be removed"/>
-            <Label Content="mm" FontSize="12" HorizontalAlignment="Left" Margin="140,4,0,0" VerticalAlignment="Top" ToolTip="Kernel size (2k + 1)"/>
-            <Label Content="Strength" FontSize="14" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" ToolTip="Average kernel size (2k + 1)"/>
-            <Label Content="Min Area" FontSize="14" HorizontalAlignment="Left" Margin="340,0,0,0" VerticalAlignment="Top" ToolTip="Connected areas smaller than this will be removed"/>
-            <local:WholeNumBox x:Name="denoise_threshold" HorizontalAlignment="Left" Margin="100,4,0,0" VerticalAlignment="Top" DefaultValue="6" Width="40" Height="22"/>
-            <local:WholeNumBox x:Name="denoise_strength" HorizontalAlignment="Left" Margin="265,4,0,0" VerticalAlignment="Top" DefaultValue="1" Width="40" Height="22"/>
-            <local:WholeNumBox x:Name="denoise_min_area" HorizontalAlignment="Left" Margin="410,4,0,0" VerticalAlignment="Top" DefaultValue="16" Width="40" Height="22"/>
-        </Grid>
+                    <Grid Width="510" Height="50" HorizontalAlignment="Left" Margin="20,283,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=DenoiseCheckBox, Path=IsChecked}">
+                        <Label Content="Threshold" FontSize="14" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" ToolTip="MESH values less than this will be removed"/>
+                        <Label Content="mm" FontSize="12" HorizontalAlignment="Left" Margin="140,4,0,0" VerticalAlignment="Top" ToolTip="Kernel size (2k + 1)"/>
+                        <Label Content="Strength" FontSize="14" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" ToolTip="Average kernel size (2k + 1)"/>
+                        <Label Content="Min Area" FontSize="14" HorizontalAlignment="Left" Margin="340,0,0,0" VerticalAlignment="Top" ToolTip="Connected areas smaller than this will be removed"/>
+                        <local:WholeNumBox x:Name="denoiseThreshold" HorizontalAlignment="Left" Margin="100,4,0,0" VerticalAlignment="Top" DefaultValue="6" Width="40" Height="22"/>
+                        <local:WholeNumBox x:Name="denoiseStrength" HorizontalAlignment="Left" Margin="265,4,0,0" VerticalAlignment="Top" DefaultValue="1" Width="40" Height="22"/>
+                        <local:WholeNumBox x:Name="denoiseMinArea" HorizontalAlignment="Left" Margin="410,4,0,0" VerticalAlignment="Top" DefaultValue="16" Width="40" Height="22"/>
+                    </Grid>
 
-        <Button Content="Run" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="55" Height="22" Click="Run"/>
-        <local:RasterSelectionBox x:Name="artifactSelectionBox" HorizontalAlignment="Left" Margin="105,200,0,0" VerticalAlignment="Top" Width="300" Height="30"/>
-        <local:RasterSelectionList x:Name="scansListBox" HorizontalAlignment="Left" Margin="20,65,0,0" VerticalAlignment="Top" Height="125" Width="480"/>
-        <local:LengthReqsBox x:Name="lengthReqsBox" HorizontalAlignment="Left" Margin="15,357,0,0" VerticalAlignment="Top" Height="150"/>
+                    <Button Content="Run" x:Name="runButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="55" Height="22" Click="Run"/>
+                    <local:RasterSelectionBox x:Name="artifactSelectionBox" HorizontalAlignment="Left" Margin="105,200,0,0" VerticalAlignment="Top" Width="300" Height="30"/>
+                    <local:RasterSelectionList x:Name="scansListBox" HorizontalAlignment="Left" Margin="20,65,0,0" VerticalAlignment="Top" Height="125" Width="480"/>
+                    <local:LengthReqsBox x:Name="lengthReqsBox" HorizontalAlignment="Left" Margin="15,360,0,0" VerticalAlignment="Top" Height="150" Width="535"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Console" Width="100">
+                <Grid>
+                    <TextBox AcceptsTab="True" AcceptsReturn="True" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="ConsoleTextBox" IsReadOnly="True" FontFamily="Consolas" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,10,10,10"/>
 
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </controls:ProWindow>

@@ -43,6 +43,20 @@ namespace MESH_MAP
             }
         }
 
+        public void SelectByName(string name)
+        {
+            name = name.ToLower();
+
+            foreach (var item in selectionBox.Items)
+            {
+                if (item.ToString().ToLower().Contains(name))
+                {
+                    selectionBox.SelectedItem = item;
+                    break;
+                }
+            }
+        }
+
         public FeatureLayer GetSelectedLayer()
         {
             if (selectionBox.SelectedItem == null) return null;
