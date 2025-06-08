@@ -12,6 +12,5 @@ SwiftApp/.build/
 __pycache__/
 *.pyc
 .build/
-
 grib2_files/*.grib2*
-
+grib2_files/*.grib2*

@@ -66,7 +66,7 @@ def download_mesh_grib2(date_str, dest_dir='grib2_files'):
         with open(grib2_path, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
     return str(grib2_path)
-
+  
 def list_available_times(date_str, product='MESH_00.50', verify=True):
     """Return a list of available HHMMSS strings for a date/product."""
     url = (
@@ -101,7 +101,6 @@ def grib2_to_tif(grib2_path, tif_path):
         tif_path,
     ])
 
-
 def grib2_to_tif(grib2_path, tif_path):
     subprocess.check_call(['gdal_translate', grib2_path, tif_path])
     
@@ -109,7 +108,6 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Download MESH GRIB2 and convert to TIFF')
     parser.add_argument('date', help='Date in YYYYMMDD format')
-
     parser.add_argument('--time', default='000000', help='Time (HHMMSS) within the day')
     parser.add_argument('--product', default='MESH_00.50',
                         help='MRMS product name, e.g. MESH_00.50 or MESH_Max_1440min_00.50')
@@ -130,7 +128,6 @@ if __name__ == '__main__':
         tif = Path(args.out) / tif_name
         grib2_to_tif(grib2, tif)
         print('Saved', tif)
-
     parser.add_argument('--out', default='simple_images', help='Directory to store TIFF')
     args = parser.parse_args()
     grib2 = download_mesh_grib2(args.date)
