@@ -2,6 +2,7 @@
 
 A minimal Swift command-line wrapper around the Python processing scripts.
 It downloads MRMS data and processes it via the existing pipeline.
+
 Requires **macOS 15**.
 The first time it runs, the tool installs the Python dependencies using the
 `Resources/install_python_deps.sh` script bundled in the package.
