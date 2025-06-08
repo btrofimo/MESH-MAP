@@ -10,6 +10,12 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "MESHMapMac",
+            path: "Sources",
+            sources: ["MESHMapMac"],
+            resources: [
+                .copy("../Resources/requirements.txt"),
+                .copy("../Resources/install_python_deps.sh")
+            ]
             dependencies: [],
             resources: [
                 .copy("Resources/requirements.txt"),
@@ -21,7 +27,6 @@ let package = Package(
                 displayName: "Install Python deps",
                 executable: .bash("Resources/install_python_deps.sh")
             )
-
         )
     ]
 )

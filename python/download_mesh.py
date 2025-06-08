@@ -40,12 +40,9 @@ def download_mesh_grib2(date_str, time_str='000000', product='MESH_00.50',
     Path(dest_dir).mkdir(parents=True, exist_ok=True)
     gz_path = Path(dest_dir) / fname
     resp = requests.get(url, stream=True, verify=verify)
-
+    
 def download_mesh_grib2(date_str, dest_dir='grib2_files'):
-    """Download MESH grib2 data for the given YYYYMMDD date.
-
-    Returns path to the downloaded grib2 file.
-    """
+    """Download MESH grib2 data for the given YYYYMMDD date.mReturns path to the downloaded grib2 file."""
     date = datetime.strptime(date_str, '%Y%m%d')
     base_url = 'https://noaa-mrms-pds.s3.amazonaws.com/CONUS/MESH_00.50'
     prefix = f"{date:%Y%m%d}"  # folder name in bucket
@@ -102,7 +99,6 @@ def grib2_to_tif(grib2_path, tif_path):
 
 def grib2_to_tif(grib2_path, tif_path):
     subprocess.check_call(['gdal_translate', grib2_path, tif_path])
-    
 
 if __name__ == '__main__':
     import argparse
@@ -135,4 +131,3 @@ if __name__ == '__main__':
     tif = Path(args.out) / f"{args.date}.tif"
     grib2_to_tif(grib2, tif)
     print('Saved', tif)
-

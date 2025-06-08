@@ -40,7 +40,6 @@ func runPython(script: String, args: [String]) {
     }
 }
 
-
 func installDeps() {
     guard let script = Bundle.module.path(forResource: "install_python_deps", ofType: "sh") else {
         print("Could not locate install script")
