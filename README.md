@@ -15,6 +15,7 @@
 ![](https://github.com/Northern-Tornadoes-Project/MESH-MAP/blob/main/images/ui2.png)
 
 ### GRIB2 Input Directory
+
 Place any GRIB2 files you want to process in the `grib2_files` folder at the repository root.  A helper script `python/download_mesh.py` can fetch a file directly from the NOAA MRMS AWS bucket and convert it to a GeoTIFF.
 
 ### Usage
@@ -56,3 +57,4 @@ cd SwiftApp
 swift build -c release
 .build/release/MESHMapMac --date 20240507 --time 100000 --product MESH_Max_1440min_00.50
 ```
+
