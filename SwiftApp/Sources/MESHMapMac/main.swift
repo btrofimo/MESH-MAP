@@ -60,6 +60,7 @@ func installDeps() {
 
 if let opts = parseArguments() {
     installDeps()
+if let opts = parseArguments() {
     runPython(script: "../python/download_mesh.py", args: [opts.date, "--time", opts.time, "--product", opts.product])
     runPython(script: "../python/main.py", args: [])
 } else {
