@@ -1,0 +1,9 @@
+requests>=2.32
+numpy
+xarray
+netCDF4
+boto3
+opencv-python
+networkx
+tqdm
+Pillow
