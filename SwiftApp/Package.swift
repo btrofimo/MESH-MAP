@@ -14,6 +14,13 @@ let package = Package(
                 .copy("Resources/requirements.txt"),
                 .copy("Resources/install_python_deps.sh")
             ]
+
+            ],
+            .prebuildCommand(
+                displayName: "Install Python deps",
+                executable: .bash("Resources/install_python_deps.sh")
+            )
+
         )
     ]
 )

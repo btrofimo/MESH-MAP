@@ -49,11 +49,12 @@ Place any GRIB2 files you want to process in the `grib2_files` folder at the rep
 Note: The `python/download_mesh.py` helper downloads a single GRIB2 file for the specified product and time and converts it to TIFF. Use `--no-verify` if certificate errors occur when fetching from the NOAA bucket. The main processing script still requires TIFF input files.
 
 ### macOS Command-Line Wrapper
+
 A Swift package in `SwiftApp` provides a convenience wrapper on macOS. When run
 for the first time, it installs the required Python packages automatically.
+A Swift package in `SwiftApp` provides a convenience wrapper on macOS.
 Build and run with:
 ```bash
 cd SwiftApp
 swift build -c release
 .build/release/MESHMapMac --date 20240507 --time 100000 --product MESH_Max_1440min_00.50
-```

@@ -1,6 +1,7 @@
 import Foundation
 import class Foundation.Bundle
 
+
 struct Options {
     var date: String
     var time: String = "000000"
@@ -40,6 +41,7 @@ func runPython(script: String, args: [String]) {
     }
 }
 
+
 func installDeps() {
     guard let script = Bundle.module.path(forResource: "install_python_deps", ofType: "sh") else {
         print("Could not locate install script")
@@ -60,6 +62,7 @@ func installDeps() {
 
 if let opts = parseArguments() {
     installDeps()
+if let opts = parseArguments() {
     runPython(script: "../python/download_mesh.py", args: [opts.date, "--time", opts.time, "--product", opts.product])
     runPython(script: "../python/main.py", args: [])
 } else {
