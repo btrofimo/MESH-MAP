@@ -2,6 +2,7 @@
 
 import math
 import os
+from pathlib import Path
 
 import numpy as np
 import cv2
@@ -144,34 +145,39 @@ def draw_referenced_path(im, path, stats):
 # TODO: Max MESH value in swath
 # TODO: Max swath width
 # TODO: Max swath width path coords
+def process_tif(tif_path, out_dir="simple_images/results1"):
+    """Process a single GeoTIFF and write the coloured output."""
+    name = os.path.basename(tif_path)
+    im = imread_tif32f(tif_path)
+    # im = denoise_mesh(im)
+    cimg = colour_swath(im)
+
+    binary_im = np.zeros_like(im, dtype=np.uint8)
+    cv2.threshold(im, 10, 255, cv2.THRESH_BINARY, binary_im)
+
+    comp_images, stats, centroids = extract_cc_images(im, binary_im, 8, 40)
+
+    swath_idx = []
+    swath_paths = []
+
+    for i, image in enumerate(comp_images):
+        req1 = long_enough_subsection(image, 10, 255, 40)
+        req2 = long_enough_subsection(image, 30, 255, 2)
+
+        if req1 is not None and req2 is not None:
+            swath_idx.append(i)
+            swath_paths.append([req1, req2])
+
+    for i, s in enumerate(swath_idx):
+        # draw_referenced_path(cimg, swath_paths[i][0], stats[s])
+        draw_referenced_contour(cimg, comp_images[s], stats[s])
+        draw_referenced_box(cimg, stats[s])
+
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(os.path.join(out_dir, name), cimg)
+
+
 if __name__ == '__main__':
 
-    for file in tqdm(glob("../simple_images/*.tif")[21:]):
-        name = os.path.basename(file)
-        im = imread_tif32f(file)
-        #im = denoise_mesh(im)
-        cimg = colour_swath(im)
-
-        binary_im = np.zeros_like(im, dtype=np.uint8)
-        cv2.threshold(im, 10, 255, cv2.THRESH_BINARY, binary_im)
-
-        comp_images, stats, centroids = extract_cc_images(im, binary_im, 8, 40)
-
-        swath_idx = []
-        swath_paths = []
-
-        for i, image in enumerate(comp_images):
-
-            req1 = long_enough_subsection(image, 10, 255, 40)
-            req2 = long_enough_subsection(image, 30, 255, 2)
-
-            if req1 is not None and req2 is not None:
-                swath_idx.append(i)
-                swath_paths.append([req1, req2])
-
-        for i, s in enumerate(swath_idx):
-            #draw_referenced_path(cimg, swath_paths[i][0], stats[s])
-            draw_referenced_contour(cimg, comp_images[s], stats[s])
-            draw_referenced_box(cimg, stats[s])
-
-        cv2.imwrite("simple_images/results1/" + name, cimg)
+    for file in tqdm(glob("simple_images/*.tif")):
+        process_tif(file)
