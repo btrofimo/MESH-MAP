@@ -41,6 +41,7 @@ def download_mesh_grib2(date_str, time_str='000000', product='MESH_00.50',
     gz_path = Path(dest_dir) / fname
     resp = requests.get(url, stream=True, verify=verify)
 
+
 def download_mesh_grib2(date_str, dest_dir='grib2_files'):
     """Download MESH grib2 data for the given YYYYMMDD date.
 
@@ -84,6 +85,23 @@ def list_available_times(date_str, product='MESH_00.50', verify=True):
             times.append(t)
     return sorted(times)
 
+
+def grib2_to_tif(grib2_path, tif_path):
+    """Convert a GRIB2 file to an 8-bit GeoTIFF.
+
+    The output is scaled using GDAL's ``-scale`` option so that the
+    floating point hail values are mapped to the 0-255 range expected by
+    the rest of the pipeline.
+    """
+    subprocess.check_call([
+        'gdal_translate',
+        '-ot', 'Byte',
+        '-scale',
+        grib2_path,
+        tif_path,
+    ])
+
+
 def grib2_to_tif(grib2_path, tif_path):
     subprocess.check_call(['gdal_translate', grib2_path, tif_path])
     
@@ -112,7 +130,7 @@ if __name__ == '__main__':
         tif = Path(args.out) / tif_name
         grib2_to_tif(grib2, tif)
         print('Saved', tif)
-        
+
     parser.add_argument('--out', default='simple_images', help='Directory to store TIFF')
     args = parser.parse_args()
     grib2 = download_mesh_grib2(args.date)
@@ -120,4 +138,3 @@ if __name__ == '__main__':
     tif = Path(args.out) / f"{args.date}.tif"
     grib2_to_tif(grib2, tif)
     print('Saved', tif)
-

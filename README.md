@@ -57,4 +57,3 @@ cd SwiftApp
 swift build -c release
 .build/release/MESHMapMac --date 20240507 --time 100000 --product MESH_Max_1440min_00.50
 ```
-
