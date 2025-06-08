@@ -41,7 +41,6 @@ def download_mesh_grib2(date_str, time_str='000000', product='MESH_00.50',
     gz_path = Path(dest_dir) / fname
     resp = requests.get(url, stream=True, verify=verify)
 
-
 def download_mesh_grib2(date_str, dest_dir='grib2_files'):
     """Download MESH grib2 data for the given YYYYMMDD date.
 
@@ -66,7 +65,7 @@ def download_mesh_grib2(date_str, dest_dir='grib2_files'):
         with open(grib2_path, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
     return str(grib2_path)
-  
+
 def list_available_times(date_str, product='MESH_00.50', verify=True):
     """Return a list of available HHMMSS strings for a date/product."""
     url = (
@@ -104,6 +103,7 @@ def grib2_to_tif(grib2_path, tif_path):
 def grib2_to_tif(grib2_path, tif_path):
     subprocess.check_call(['gdal_translate', grib2_path, tif_path])
     
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Download MESH GRIB2 and convert to TIFF')
@@ -135,3 +135,4 @@ if __name__ == '__main__':
     tif = Path(args.out) / f"{args.date}.tif"
     grib2_to_tif(grib2, tif)
     print('Saved', tif)
+

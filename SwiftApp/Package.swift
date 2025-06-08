@@ -4,6 +4,7 @@ import PackageDescription
 let package = Package(
     name: "MESHMapMac",
     platforms: [
+        .macOS(.v15)
         .macOS(.v12)
     ],
     targets: [

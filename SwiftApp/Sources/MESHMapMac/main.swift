@@ -1,7 +1,6 @@
 import Foundation
 import class Foundation.Bundle
 
-
 struct Options {
     var date: String
     var time: String = "000000"

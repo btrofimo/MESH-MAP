@@ -1,5 +1,9 @@
 # MESH-MAP
- Maximum Estimated Size of Hail - Monitoring and Analysis Program
+Maximum Estimated Size of Hail - Monitoring and Analysis Program
+
+This repository targets **macOS 15**. All usage instructions assume a Mac
+environment. The `MESH_MAP` folder contains a historical Windows-only add-in
+that is no longer maintained.
 
 ### MESH Scan
 ![](https://github.com/Northern-Tornadoes-Project/MESH-MAP/blob/main/images/mesh.png)
@@ -18,9 +22,14 @@
 Place any GRIB2 files you want to process in the `grib2_files` folder at the repository root.  A helper script `python/download_mesh.py` can fetch a file directly from the NOAA MRMS AWS bucket and convert it to a GeoTIFF.
 
 ### Usage
+1. Install GDAL and the Python dependencies (requires [Homebrew](https://brew.sh)):
+   ```bash
+   brew install gdal
+   
 1. Install GDAL and the Python dependencies:
    ```bash
    sudo apt-get update && sudo apt-get install -y gdal-bin
+
    python3 -m pip install --upgrade pip
    python3 -m pip install -r python/requirements.txt
    ```
@@ -49,12 +58,16 @@ Place any GRIB2 files you want to process in the `grib2_files` folder at the rep
 Note: The `python/download_mesh.py` helper downloads a single GRIB2 file for the specified product and time and converts it to TIFF. Use `--no-verify` if certificate errors occur when fetching from the NOAA bucket. The main processing script still requires TIFF input files.
 
 ### macOS Command-Line Wrapper
+A Swift package in `SwiftApp` provides a convenience wrapper on macOS. When run
+for the first time, it installs the required Python packages automatically.
 
 A Swift package in `SwiftApp` provides a convenience wrapper on macOS. When run
 for the first time, it installs the required Python packages automatically.
 A Swift package in `SwiftApp` provides a convenience wrapper on macOS.
+
 Build and run with:
 ```bash
 cd SwiftApp
 swift build -c release
 .build/release/MESHMapMac --date 20240507 --time 100000 --product MESH_Max_1440min_00.50
+
