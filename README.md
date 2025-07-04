@@ -63,15 +63,10 @@ dependencies and builds the Swift wrapper so you can immediately run the tool.
 
 Note: The `python/download_mesh.py` helper downloads a single GRIB2 file for the specified product and time and converts it to TIFF. Use `--no-verify` if certificate errors occur when fetching from the NOAA bucket. The main processing script still requires TIFF input files.
 
+
 ### macOS Command-Line Wrapper
-A Swift package in `SwiftApp` provides a convenience wrapper on macOS. When run
-for the first time, it installs the required Python packages automatically.
-
-
-A Swift package in `SwiftApp` provides a convenience wrapper on macOS. When run
-for the first time, it installs the required Python packages automatically.
-A Swift package in `SwiftApp` provides a convenience wrapper on macOS.
-
+A Swift package in `SwiftApp` offers a command-line entry point that installs
+all Python dependencies on first run.
 
 Build and run with:
 ```bash
@@ -79,7 +74,6 @@ cd SwiftApp
 swift build -c release
 .build/release/MESHMapMac --date 20240507 --time 100000 --product MESH_Max_1440min_00.50
 ```
-
 
 ### Simple GUI
 A tiny Tkinter GUI can launch the download and processing pipeline.
@@ -89,3 +83,8 @@ python3 python/gui.py
 ```
 Fill in the date, time, and product then click **Download & Process**.
 The resulting TIFF and coloured output appear in `simple_images/`.
+
+### macOS Downloader App
+`MRMSDownloaderApp` is a simple SwiftUI application for downloading an MRMS
+MESH 1440‑minute GRIB2 file from NOAA's public AWS bucket. Open
+`MRMSDownloaderApp/MRMSDownloaderApp.swift` in Xcode and run the app to test.
